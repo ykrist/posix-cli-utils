@@ -22,6 +22,18 @@ pub trait IoContext<T, E>: Context<T, E> + Sized {
         self.with_context(|| format!("failed to write {}", path.as_ref().display()))
     }
 
+    fn context_create_dir<P: AsRef<Path>>(self, path: P) -> Result<T, Error> {
+        self.with_context(|| format!("failed to create directory {}", path.as_ref().display()))
+    }
+
+    fn context_remove_dir<P: AsRef<Path>>(self, path: P) -> Result<T, Error> {
+        self.with_context(|| format!("failed to remove directory {}", path.as_ref().display()))
+    }
+
+    fn context_move_file<P1: AsRef<Path>, P2: AsRef<Path>>(self, from: P1, to: P2) -> Result<T, Error> {
+        self.with_context(|| format!("failed to move {} to {}", from.as_ref().display(), to.as_ref().display()))
+    }
+
     fn context_append<P: AsRef<Path>>(self, path: P) -> Result<T, Error> {
         self.with_context(|| format!("failed to append to {}", path.as_ref().display()))
     }
